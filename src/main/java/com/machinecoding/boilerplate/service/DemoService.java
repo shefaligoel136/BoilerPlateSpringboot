@@ -2,6 +2,7 @@ package com.machinecoding.boilerplate.service;
 
 import com.machinecoding.boilerplate.dto.Demo.RequestDemoDTO;
 import com.machinecoding.boilerplate.dto.Demo.ResponseDemoDTO;
+import com.machinecoding.boilerplate.exceptions.EntityDoesNotExists;
 import com.machinecoding.boilerplate.interfaces.DemoInterface;
 import com.machinecoding.boilerplate.model.Demo;
 import com.machinecoding.boilerplate.repository.DemoRepository;
@@ -29,11 +30,10 @@ public class DemoService implements DemoInterface {
     }
 
     @Override
-    public Demo getDemoById(long id) {
+    public Demo getDemoById(Long id) throws EntityDoesNotExists {
         Optional<Demo> optionalDemo = demoRepository.findById(id);
         if(optionalDemo.isEmpty()){
-//            TODO: Exception
-            System.out.println("No demo found");
+            throw new EntityDoesNotExists("Entity with id " + id +" does not exists");
         }
         return optionalDemo.get();
     }
@@ -44,11 +44,10 @@ public class DemoService implements DemoInterface {
     }
 
     @Override
-    public ResponseDemoDTO updateDemo(Long id, RequestDemoDTO demo) {
+    public ResponseDemoDTO updateDemo(Long id, RequestDemoDTO demo) throws EntityDoesNotExists {
         Optional<Demo> optionalDemo = demoRepository.findById(id);
         if(optionalDemo.isEmpty()){
-//            TODO: Exception
-            System.out.println("No demo found");
+            throw new EntityDoesNotExists("Entity with id " + id +" does not exists");
         }
 
         Demo originalDemo = optionalDemo.get();
@@ -65,11 +64,10 @@ public class DemoService implements DemoInterface {
     }
 
     @Override
-    public void deleteDemo(long id) {
+    public void deleteDemo(long id) throws EntityDoesNotExists {
         Optional<Demo> optionalDemo = demoRepository.findById(id);
         if(optionalDemo.isEmpty()){
-//            TODO: Exception
-            System.out.println("No demo found");
+            throw new EntityDoesNotExists("Entity with id " + id +" does not exists");
         }
         demoRepository.deleteById(id);
     }

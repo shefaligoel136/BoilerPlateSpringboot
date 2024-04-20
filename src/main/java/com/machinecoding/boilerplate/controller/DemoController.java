@@ -1,19 +1,17 @@
 package com.machinecoding.boilerplate.controller;
 
-import com.machinecoding.boilerplate.dto.Demo.DemoDTO;
 import com.machinecoding.boilerplate.dto.Demo.RequestDemoDTO;
 import com.machinecoding.boilerplate.dto.Demo.ResponseDemoDTO;
+import com.machinecoding.boilerplate.exceptions.EntityDoesNotExists;
 import com.machinecoding.boilerplate.model.Demo;
 import com.machinecoding.boilerplate.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RestController("/demo")
+@RestController
+@RequestMapping("/demo")
 public class DemoController {
 
     @Autowired
@@ -30,7 +28,7 @@ public class DemoController {
     }
 
     @GetMapping("/{id}")
-    public Demo getAllDemos(@PathVariable("id") Long id){
+    public Demo getAllDemos(@PathVariable("id") Long id) throws EntityDoesNotExists {
         return demoService.getDemoById(id);
     }
 
@@ -40,12 +38,12 @@ public class DemoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseDemoDTO updateDemo(@PathVariable("id") Long id, @RequestBody RequestDemoDTO requestDemoDTO){
+    public ResponseDemoDTO updateDemo(@PathVariable("id") Long id, @RequestBody RequestDemoDTO requestDemoDTO) throws EntityDoesNotExists {
         return demoService.updateDemo(id, requestDemoDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDemo(@PathVariable("id") Long id){
+    public void deleteDemo(@PathVariable("id") Long id) throws EntityDoesNotExists {
         demoService.deleteDemo(id);
     }
 }
